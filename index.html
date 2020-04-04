@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <link rel="stylesheet" href="./home.css">
+  <title>XOR Decryptor</title>
+</head>
+<body>
+  <div class="title-bar">
+    <div class="app-name-container">
+      <img src="./img/logo.png" />
+    </div>
+    <div class="window-controls-container">
+      <div class="minimize-button" id="minimize-button">
+        <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12">
+          <rect fill="currentColor" width="10" height="1" x="1" y="6"></rect>
+        </svg>
+      </div>
+      <div class="min-max-button" id="min-max-button">
+        <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12">
+          <rect width="9" height="9" x="1.5" y="1.5" fill="none" stroke="currentColor"></rect>
+        </svg>
+      </div>
+      <div class="close-button" id="close-button">
+        <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12">
+          <polygon fill="currentColor" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="left-panel">
+      <div class="panel-selection active" switch-data="decryption">
+        <span>Décryptage entier</span>
+      </div>
+      <hr>
+      <div class="panel-selection" switch-data="analyze-blocks">
+        <span>Analyse des blocks</span>
+      </div>
+      <hr>
+      <div class="panel-selection" switch-data="decrypt-with-key">
+        <span>Décrypt. avec clé</span>
+      </div>
+      <hr>
+    </div>
+    <div id="decryption" class="main-panel active">
+      <br>
+      <h1 id="title">Décryptage XOR pour six caractères</h1>
+      <br>
+      <hr>
+      <br>
+      <div class="holder-container">
+        <div id="upload" class="holder">
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-upload fa-w-16 fa-5x">
+            <path fill="currentColor" d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z" class=""></path>
+          </svg>
+          <br>
+          <span id="descUpload">Glissez et déposez le fichier à décrypter ici.</span>
+        </div>
+        <div id="loading" class="holder">
+          <img src="./img/loading.svg" width="80%" height="40%" />
+          <br>
+          <span></span>
+          <div class="progressbar-wrapper">
+            <div class="progress">
+              <div class="progressbar"></div>
+            </div>
+          </div>
+        </div>
+        <div id="error" class="holder">
+          <h2>✕</h2>
+          <br>
+          <span></span>
+        </div>
+        <div id="result" class="holder">
+          <div class="wrapper" id="fade-slider">
+            <div class="fade-slider-container">
+              <div class="fade-slider-row">
+                <div class="fade-slider">
+                </div>
+              </div>
+              <div class="fade-controls">
+                <button class="fade-sl-arrow fade-arrow-prev"><</button>
+                <div class="fade-sl-counter">
+                  <span class="current">0</span><span class="sum">/0</span>
+                </div>
+                <button class="fade-sl-arrow fade-arrow-next">></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="optional-field">
+        <input type"text" id="keyInput" placeholder="Entrez la clé de décryptage ici" />
+        <div id="nextStep" class="button">Décrypter</div>
+      </div>
+
+      <div class="after-result">
+        <div id="reload" class="button">Décrypter un autre fichier</div>
+        <div id="save" class="button">Sauvegarder .txt décrypté</div>
+      </div>
+    </div>
+  </div>
+
+<!-- You can also require other files to run in this process -->
+<script src="./renderer.js"></script>
+</body>
+</html>
