@@ -2,8 +2,6 @@ const { parentPort, workerData } = require('worker_threads')
 const path = require('path');
 const fs = require('fs');
 
-const directoryPath = path.join(__dirname, "CRYPTED_FILES");
-
 var XORDecipher = {
 
   decryptBytes : function(byteArr, key){

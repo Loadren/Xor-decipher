@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const {shell, app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
 const path = require('path')
-const XORDecipher = require('./XOR/XOR.js')
+const XORDecipher = require('./XOR.js')
 var events = require('events');
 
 var mainWindow = null;

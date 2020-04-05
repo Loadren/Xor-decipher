@@ -74,7 +74,7 @@ var XORDecipher = {
     score = score / scoreCompte;
 
     //Dictionnary test
-    var data = fs.readFileSync("./XOR/liste_francais.txt");
+    var data = fs.readFileSync("./liste_francais.txt");
     score += XORDecipher.dictionnaryAttack(str, data)*5;
 
     //vowels rules

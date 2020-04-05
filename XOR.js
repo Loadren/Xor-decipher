@@ -3,7 +3,7 @@ const fs = require('fs');
 const { Worker, parentPort, workerData } = require('worker_threads')
 var events = require('events');
 
-const directoryPath = path.join(__dirname, "CRYPTED_FILES");
+var relativePath = path.join(__dirname, 'foobar.json');
 
 var XORDecipher = module.exports = {
 
@@ -172,7 +172,7 @@ var XORDecipher = module.exports = {
       const threads = new Set();;
       return new Promise(function(resolve, reject) {
         for (let i = 0; i < threadCount; i++) {
-          threads.add(new Worker("./XOR/worker.js", { workerData: { encryptedBytes : encryptedBytes, solutionRange : [solutions[i]] }}));
+          threads.add(new Worker("./worker.js", { workerData: { encryptedBytes : encryptedBytes, solutionRange : [solutions[i]] }}));
         }
 
         for (let worker of threads) {
@@ -219,7 +219,7 @@ var XORDecipher = module.exports = {
     const threads = new Set();;
     return new Promise(function(resolve, reject) {
       for (let i = 0; i < threadCount; i++) {
-        threads.add(new Worker("./XOR/worker.js", { workerData: { encryptedBytes : encryptedBytes, solutionRange : result[i] }}));
+        threads.add(new Worker("./worker.js", { workerData: { encryptedBytes : encryptedBytes, solutionRange : result[i] }}));
       }
 
       for (let worker of threads) {
@@ -287,7 +287,7 @@ var XORDecipher = module.exports = {
     const threads = new Set();;
     return new Promise(function(resolve, reject) {
       for (let i = 0; i < threadCount; i++) {
-        threads.add(new Worker("./XOR/workerFrench.js", { workerData: { obj : result[i] }}));
+        threads.add(new Worker("./workerFrench.js", { workerData: { obj : result[i] }}));
       }
 
       for (let worker of threads) {
