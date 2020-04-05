@@ -72,7 +72,8 @@ var panels = {
     }
   },
   error : {
-    setMain : async function(){
+    setMain : async function(response){
+      if(response && response.text) $("#error > span").html(response.text);
       if(panels.getAllState(["loading", "upload", "result", "afterResult", "optionalField"])) {
         await $("#loading, #upload, #result, .after-result, .optional-field").css({"z-index" : "0", "pointer-events" : "none"}).animate({opacity:0}, 500).promise();
       }
@@ -350,7 +351,7 @@ async function uploadFile(action, response) {
 
   switch (response.type) {
     case 'error':
-    await panels.error.setMain();
+    await panels.error.setMain(response);
     await $("#error").effect("shake").promise();
 
     if(response.fallback == "reload"){
