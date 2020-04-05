@@ -12,6 +12,7 @@ var $ = jQuery = require('jquery')
 var fs = require('fs');
 var path = require('path');
 require('jquery-ui-dist/jquery-ui')
+var lastPathUsed = "";
 
 var globalVariable = {};
 
@@ -124,6 +125,7 @@ $("#min-max-button").on('click', () => {
 
 $("#save").on('click', () => {
   switch (getCurrentPanelAction()) {
+    case "decrypt-with-key":
     case "decryption":
     myUrlSaveAs($(".fade-slider-item.showing").text())
     break;
@@ -165,7 +167,8 @@ async function myUrlSaveAs(string){
   // app.getPath("documents")     // User's "My Documents" folder
   // app.getPath("downloads")     // User's Downloads folder
 
-  var toLocalPath = path.resolve(app.getPath("desktop"));
+  console.log(fs.existsSync(lastPathUsed.substring(0, lastPathUsed.lastIndexOf("\\"))), lastPathUsed.substring(0, lastPathUsed.lastIndexOf("/")))
+  var toLocalPath = fs.existsSync(lastPathUsed.substring(0, lastPathUsed.lastIndexOf("\\"))) ? lastPathUsed : path.resolve(app.getPath("desktop"));
 
   var userChosenPath = await dialog.showSaveDialogSync({
     defaultPath: toLocalPath,
@@ -179,6 +182,7 @@ async function myUrlSaveAs(string){
   if(userChosenPath){
     download(string, userChosenPath)
   }
+
 
 
 }
@@ -270,7 +274,8 @@ async function switchPanel(){
 
   holder.addEventListener("click", async (e) => {
 
-    var toLocalPath = path.resolve(app.getPath("desktop"));
+    console.log(fs.existsSync(lastPathUsed.substring(0, lastPathUsed.lastIndexOf("\\"))), lastPathUsed.substring(0, lastPathUsed.lastIndexOf("/")))
+    var toLocalPath = fs.existsSync(lastPathUsed.substring(0, lastPathUsed.lastIndexOf("\\"))) ? lastPathUsed : path.resolve(app.getPath("desktop"));
 
     var userChosenPath = await dialog.showOpenDialogSync({
       defaultPath: toLocalPath,
@@ -283,6 +288,7 @@ async function switchPanel(){
     if(userChosenPath){
       panelAction(userChosenPath, true);
     }
+
   });
 
   holder.addEventListener("drop", function(e){
@@ -360,21 +366,25 @@ async function uploadFile(action, response) {
       case "analyze-blocks":
       response.text = "Le fichier est en train d'être analysé...";
       ipcRenderer.send(action, response.file);
+      lastPathUsed = response.file.substring(0, response.file.lastIndexOf(".txt")) + "_analyzed.txt";
       break;
       case "decryption":
       response.text = "Le fichier est en train d'être décrypté...";
       ipcRenderer.send(action, response.file);
+      lastPathUsed = response.file.substring(0, response.file.lastIndexOf(".txt")) + "_dechif.txt";
       break
       case "decrypt-with-key":
       response.text = "Le fichier est en train d'être décrypté...";
-      console.log({file: response.file, key: response.key})
       ipcRenderer.send(action, {file: response.file, key: response.key});
+      lastPathUsed = response.file.substring(0, response.file.lastIndexOf(".txt")) + "_dechif.txt";
       break
     }
     $("#loading span").html(response.text)
     panels.loading.setMain();
     break;
   }
+
+
 
   return false;
 }

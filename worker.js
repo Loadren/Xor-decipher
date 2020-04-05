@@ -18,7 +18,6 @@ var XORDecipher = {
 
   decryptByteArray : function(encryptedBytes, solutions){
       var decryptedPossibilities = [];
-      console.log(solutions)
       solutions.map((sol, index) => {
         var decryptedOne = XORDecipher.decryptBytes(encryptedBytes, sol);
         decryptedPossibilities.push({decrypted : decryptedOne, key : sol});
